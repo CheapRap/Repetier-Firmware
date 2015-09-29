@@ -104,7 +104,21 @@ is a full cartesian system where x, y and z moves are handled by separate motors
 Cases 1 and 2 cover all needed xy H gantry systems. If you get results mirrored etc. you can swap motor connections for x and y.
 If a motor turns in the wrong direction change INVERT_X_DIR or INVERT_Y_DIR.
 */
-#define DRIVE_SYSTEM 0
+#define DRIVE_SYSTEM 2
+
+/* Define the type of z axis movements for DRIVE_SYSTEM 0, 1, 2
+
+0 = normal cartesian z axis
+1 = scissor jack z axis
+*/
+#if DRIVE_SYSTEM >= 0 and DRIVE_SYSTEM <= 2
+#define Z_DRIVE_SYSTEM 1
+
+#if Z_DRIVE_SYSTEM == 1
+#define Z_JACK_ARM_LENGHT 150
+#endif // Z_DRIVE_SYSTEM
+
+#endif // DRIVE_SYSTEM
 
 // ##########################################################################################
 // ##                               Calibration                                            ##

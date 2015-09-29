@@ -256,9 +256,18 @@ void Printer::updateDerivedParameter()
 #else
     xMaxSteps = (long)(axisStepsPerMM[X_AXIS]*(xMin+xLength));
     yMaxSteps = (long)(axisStepsPerMM[Y_AXIS]*(yMin+yLength));
+#if Z_DRIVE_SYSTEM == 1
+    zMaxSteps = (long)(axisStepsPerMM[Z_AXIS]*getJackZ(zMin+zLength));
+#else
     zMaxSteps = (long)(axisStepsPerMM[Z_AXIS]*(zMin+zLength));
+#endif
     xMinSteps = (long)(axisStepsPerMM[X_AXIS]*xMin);
     yMinSteps = (long)(axisStepsPerMM[Y_AXIS]*yMin);
+#if Z_DRIVE_SYSTEM == 1
+    zMinSteps = (long)(axisStepsPerMM[Z_AXIS]*getJackZ(zMin));
+#else
+    zMinSteps = (long)(axisStepsPerMM[Z_AXIS]*zMin);
+#endif
     zMinSteps = (long)(axisStepsPerMM[Z_AXIS]*zMin);
     // For which directions do we need backlash compensation
 #if ENABLE_BACKLASH_COMPENSATION
@@ -339,7 +348,11 @@ void Printer::moveTo(float x,float y,float z,float e,float f)
     if(y != IGNORE_COORDINATE)
         destinationSteps[Y_AXIS] = (y + Printer::offsetY) * axisStepsPerMM[Y_AXIS];
     if(z != IGNORE_COORDINATE)
+#if Z_DRIVE_SYSTEM == 1
+        destinationSteps[Z_AXIS] = getJackZ(z) * axisStepsPerMM[Z_AXIS];
+#else
         destinationSteps[Z_AXIS] = z * axisStepsPerMM[Z_AXIS];
+#endif
     if(e != IGNORE_COORDINATE)
         destinationSteps[E_AXIS] = e * axisStepsPerMM[E_AXIS];
     if(f != IGNORE_COORDINATE)

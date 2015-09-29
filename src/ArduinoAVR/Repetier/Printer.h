@@ -640,6 +640,12 @@ public:
     }
     static void deltaMoveToTopEndstops(float feedrate);
 #endif
+#if Z_DRIVE_SYSTEM == 1
+    static inline float getJackZ(float z)
+    {
+        return sqrt(Z_JACK_ARM_LENGHT*Z_JACK_ARM_LENGHT - z*z);
+    }
+#endif // Z_DRIVE_SYSTEM
 #if MAX_HARDWARE_ENDSTOP_Z
     static float runZMaxProbe();
 #endif
